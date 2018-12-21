@@ -22,7 +22,8 @@ by the above step.
 tag locations across SAM files, organizes tags into markers (by location), and exports tag 
 sequences in TagDigger's database format.
 4. TagDigger is used for obtaining read depth of each selected tag in each individual across
-all populations.
+all populations.  Alternatively, these data are retrieved from the TagTaxaDist table from
+the TASSEL-GBS database.
 5. The read depth matrix is evaluated for missing data rate and minor allele frequency (or 
 number of individuals with minor allele) per population, which is used for filtering markers.
 6. The read depth matrix is split by population * ploidy, and genotypes are called using 

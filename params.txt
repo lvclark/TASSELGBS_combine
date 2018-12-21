@@ -1,0 +1,5 @@
+Population name: 09F2
+SAM file: C:\Users\lvclark\Documents\GS_across_pops\181119_tagseq_09F2.sam
+
+Population name: Msa
+SAM file: D:\TASSELGBS_Msa\181221_tagseq_Msa_c10.sam
