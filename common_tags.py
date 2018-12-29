@@ -19,6 +19,8 @@ with open(paramsFile, "rt") as mycon:
     for line in mycon:
         if line.startswith("SAM file:"):
             samfiles.append(line[10:].strip())
+        if line.startswith("Tag database output file:"):
+            db_outfile = line[25:].strip()
 
 if len(samfiles) < 2:
     sys.exit("Fewer than two SAM files listed.")
