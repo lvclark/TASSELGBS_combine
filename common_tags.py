@@ -56,7 +56,7 @@ for sf in samfiles[1:]:
             tags_new = [newtags[1][j] for j in alleleindex_n[i][1]]
             tags_all = list(set(tags_old + tags_new))
             tags_all.sort()
-            ct = compareTags(tags_all)
+            ct = tagdigger_fun.compareTags(tags_all)
             allele_names = [m + "_" + "".join([ct1[1][j] for ct1 in ct]) \
                             for j in range(len(tags_all))]
             retained_tags_n[0].extend(allele_names)
