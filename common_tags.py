@@ -62,3 +62,12 @@ for sf in samfiles[1:]:
             retained_tags_n[0].extend(allele_names)
             retained_tags_n[1].extend(tags_all)
     retained_tags = retained_tags_n
+
+# filter out monomorphic markers
+retained_tags = tagdigger_fun.remove_monomorphic_loci(retained_tags[0], retained_tags[1])
+
+# prepare to export common markers to a Tag Manager database
+mtags = tagdigger_fun.mergedTagList(retained_tags)
+# extract chromosomes and positions, and format for database
+# write file
+tagdigger_fun.writeMarkerDatabase()
