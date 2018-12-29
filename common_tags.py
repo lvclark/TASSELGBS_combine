@@ -22,6 +22,10 @@ with open(paramsFile, "rt") as mycon:
 if len(samfiles) < 2:
     sys.exit("Fewer than two SAM files listed.")
 
+print("Finding tag locations common to {} files:".format(len(samfiles)))
+for s in samfiles:
+    print(s)
+
 # Read first SAM file
 retained_tags = tagdigger_fun.readTags_TASSELSAM(samfiles[0])
 if retained_tags == None:
