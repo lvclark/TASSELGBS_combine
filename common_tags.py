@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import sys
+from bisect import bisect_left
 
 # Directory for TagDigger module (tagdigger_fun.py should be in this folder)
-td_dir = "../tagdigger/" 
+td_dir = "../tagdigger/"
 # File containing parameters for the pipeline
 paramsFile = "params.txt"
 
@@ -35,8 +36,29 @@ if retained_tags == None:
 for sf in samfiles[1:]:
     # organize markers from last round
     retained_markers = tagdigger_fun.extractMarkers(retained_tags[0])
-    markernames, alleleindex = zip(*sorted(zip(retained_markers[0], retained_markers[1])))
+    # sort the retained markers; not necessary but will leave in for now
+    markernames_r, alleleindex_r = zip(*sorted(zip(retained_markers[0], retained_markers[1])))
     # read in next SAM
     newtags = tagdigger_fun.readTags_TASSELSAM(sf)
     if newtags == None:
         sys.exit()
+    new_markers = tagdigger_fun.extractMarkers(newtags[0])
+    markernames_n, alleleindex_n = zip(*sorted(zip(new_markers[0], new_markers[1])))
+    # set up lists for new retained tags
+    retained_tags_n = [[], []]
+
+    # match retained and new markers
+    for mi in range(len(markernames_r)):
+        m = markernames_r[mi]
+        i = bisect_left(markernames_n, m)
+        if markernames_n[i] == m:
+            tags_old = [retained_tags[1][j] for j in alleleindex_r[mi][1]]
+            tags_new = [newtags[1][j] for j in alleleindex_n[i][1]]
+            tags_all = list(set(tags_old + tags_new))
+            tags_all.sort()
+            ct = compareTags(tags_all)
+            allele_names = [m + "_" + "".join([ct1[1][j] for ct1 in ct]) \
+                            for j in range(len(tags_all))]
+            retained_tags_n[0].extend(allele_names)
+            retained_tags_n[1].extend(tags_all)
+    retained_tags = retained_tags_n
