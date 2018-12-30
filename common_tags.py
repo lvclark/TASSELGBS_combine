@@ -13,19 +13,35 @@ spec = importlib.util.spec_from_file_location("tagdigger_fun", td_dir + "tagdigg
 tagdigger_fun = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tagdigger_fun)
 
-# Get SAM file names from parameter file
+# Get SAM file names and other data from parameter file
+popnames = []
 samfiles = []
+ttdfiles = []
+min_with_reads = []
+min_with_minor = []
 with open(paramsFile, "rt") as mycon:
     for line in mycon:
+        if line.startswith("Population name:"):
+            popnames.append(line[16:].strip())
         if line.startswith("SAM file:"):
             samfiles.append(line[10:].strip())
+        if line.startswith("TagTaxaDist file:"):
+            ttdfiles.append(line[17:].strip())
+        if line.startswith("Min. ind. with reads:"):
+            min_with_reads.append(int(line[21:].strip()))
+        if line.startswith("Min. ind. with minor allele:"):
+            min_with_minor.append(int(line[28:].strip()))
         if line.startswith("Tag database output file:"):
             db_outfile = line[25:].strip()
 
-if len(samfiles) < 2:
-    sys.exit("Fewer than two SAM files listed.")
+npops = len(popnames)
+if npops < 2:
+    sys.exit("Fewer than two populations listed.")
+if len(samfiles) != npops or len(ttdfiles) != npops or \
+  len(min_with_reads) != npops or len(min_with_minor) != npops:
+    sys.exit("Params file not formatted correctly.")
 
-print("Finding tag locations common to {} files:".format(len(samfiles)))
+print("Finding tag locations common to {} files:".format(npops))
 for s in samfiles:
     print(s)
 
