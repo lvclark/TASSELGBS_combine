@@ -61,6 +61,9 @@ for sf in samfiles[1:]:
             ct = tagdigger_fun.compareTags(tags_all)
             allele_names = [m + "_" + "".join([ct1[1][j] for ct1 in ct]) \
                             for j in range(len(tags_all))]
+            # eliminate cases of one tag being shorter version of another
+            if len(set(allele_names)) < len(allele_names):
+                continue
             retained_tags_n[0].extend(allele_names)
             retained_tags_n[1].extend(tags_all)
     retained_tags = retained_tags_n
