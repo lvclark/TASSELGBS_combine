@@ -86,8 +86,35 @@ for sf in samfiles[1:]:
 
 # filter out monomorphic markers
 retained_tags = tagdigger_fun.remove_monomorphic_loci(retained_tags[0], retained_tags[1])
+# allele and marker indexing
+retained_markers = tagdigger_fun.extractMarkers(retained_tags[0])
+nal = len(retained_tags[0]) # number of alleles
+tagtree = tagdigger_fun.build_sequence_tree(retained_tags[1], nal)
 
-# prepare to export common markers to a Tag Manager database
+## processing tagtaxadist files
+samples = [] # list of lists of sample names
+counts = [] # list of matrices, allele x sample
+for p in range(npops):
+    with open(ttdfiles[p], mode = 'r', newline = '') as mycon:
+        mycsv = csv.reader(mycon, dialect = 'excel-tab')
+        for row in mycsv:
+            if row[0] == "Tag": # header row
+                samples.append(row[1:])
+                nsam = len(row) - 1 # number of samples (individuals)
+                # set up empty matrix
+                counts.append([[0 for j in range(nsam)] for i in range(nal)])
+                continue
+            # all other rows
+            # look up tag in our database
+            tagindex = tagdigger_fun.sequence_index_lookup(row[0], tagtree)
+            if tagindex == -1: # tag not in database
+                continue
+            # fill in read depths
+            counts[p][tagindex] = [int(r) for r in row[1:]]
+
+## filter markers based on counts
+
+## prepare to export common markers to a Tag Manager database
 mtags = tagdigger_fun.mergedTagList(retained_tags)
 # extract chromosomes and positions, and format for database
 splittemp = [markername.split("-") for markername in mtags[0]]
