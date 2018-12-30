@@ -2,6 +2,18 @@ Tag database output file: C:\Users\lvclark\Documents\GS_across_pops\common_tags.
 
 Population name: 09F2
 SAM file: C:\Users\lvclark\Documents\GS_across_pops\181119_tagseq_09F2.sam
+TagTaxaDist file: D:\TASSELGBS_09F2\181228_09F2_tagtaxadist.txt
+Min. ind. with reads: 200
+Min. ind. with minor allele: 30
 
 Population name: Msa
 SAM file: D:\TASSELGBS_Msa\181221_tagseq_Msa_c10.sam
+TagTaxaDist file: D:\TASSELGBS_Msa\180813tagtaxadist.txt
+Min. ind. with reads: 300
+Min. ind. with minor allele: 5
+
+Population name: Msi
+SAM file: D:\TASSELBGS_Msi_PstI\181228_tagseq_Msi_c10.sam
+TagTaxaDist file: D:\TASSELBGS_Msi_PstI\181228Msi_tagtaxadist.txt
+Min. ind. with reads: 300
+Min. ind. with minor allele: 5
