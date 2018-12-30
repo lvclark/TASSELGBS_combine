@@ -123,4 +123,4 @@ pos = [int(s[1]) for s in splittemp]
 chrompos = dict(zip(mtags[0], list(zip(chrom, pos))))
 # write file
 tagdigger_fun.writeMarkerDatabase(db_outfile, mtags[0], mtags[1], \
-                                  [[["Chromosome", "Posiiton"], chrompos]])
+                                  [[["Chromosome", "Position"], chrompos]])
