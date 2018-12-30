@@ -113,6 +113,28 @@ for p in range(npops):
             counts[p][tagindex] = [int(r) for r in row[1:]]
 
 ## filter markers based on counts
+altokeep = []
+for alind in retained_markers[1]: # loop thru markers, by allele index
+    theseal = alind[1]
+    discard_marker = False
+    for p in range(npops):
+        hasreads = [[c > 0 for c in counts[p][a]] for a in theseal]
+        n_with_minor = [sum(h) for h in hasreads]
+        if sum([n >= min_with_minor[p] for n in n_with_minor]) < 2:
+            discard_marker = True
+            break
+        nsam = len(samples[p])
+        n_with_reads = sum([any([hasreads[a][s] for a in range(len(theseal))]) for s in range(nsam)])
+        if n_with_reads < min_with_reads[p]:
+            discard_marker = True
+            break
+    if not discard_marker:
+        altokeep.extend(theseal)
+
+# remove alleles from all relevant objects if they don't meet filtering criteria
+retained_tags[0] = [retained_tags[0][a] for a in altokeep]
+retained_tags[1] = [retained_tags[1][a] for a in altokeep]
+counts = [[counts[p][a] for a in altokeep] for p in range(npops)]
 
 ## prepare to export common markers to a Tag Manager database
 mtags = tagdigger_fun.mergedTagList(retained_tags)
