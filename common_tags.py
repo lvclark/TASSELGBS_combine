@@ -74,8 +74,9 @@ retained_tags = tagdigger_fun.remove_monomorphic_loci(retained_tags[0], retained
 # prepare to export common markers to a Tag Manager database
 mtags = tagdigger_fun.mergedTagList(retained_tags)
 # extract chromosomes and positions, and format for database
-chrom = [markername[1:markername.find("-")] for markername in mtags[0]]
-pos = [int(markername.split("-")[1]) for markername in mtags[0]]
+splittemp = [markername.split("-") for markername in mtags[0]]
+chrom = [s[0] for s in splittemp]
+pos = [int(s[1]) for s in splittemp]
 chrompos = dict(zip(mtags[0], list(zip(chrom, pos))))
 # write file
 tagdigger_fun.writeMarkerDatabase(db_outfile, mtags[0], mtags[1], \
