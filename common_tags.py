@@ -174,7 +174,7 @@ for p in range(npops):
     counts_keep = [counts[p][a] for a in keep_al]
     # transpose counts matrix
     counts_keep = [[counts_keep[a][s] for a in range(len(counts_keep))] \
-                    for s in len(samples[p])]
+                    for s in range(len(samples[p]))]
     # export
     tagdigger_fun.writeCounts(outdir + popnames[p] + "_counts.csv", \
       counts_keep, samples[p], tagname_keep)
