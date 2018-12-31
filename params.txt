@@ -14,7 +14,7 @@ Min. ind. with reads: 300
 Min. ind. with minor allele: 5
 
 Population name: Msi
-SAM file: D:\TASSELBGS_Msi_PstI\181228_tagseq_Msi_c10.sam
+SAM file: D:\TASSELGBS_Msi_PstI\181228_tagseq_Msi_c10.sam
 TagTaxaDist file: D:\TASSELBGS_Msi_PstI\181228Msi_tagtaxadist.txt
 Min. ind. with reads: 300
 Min. ind. with minor allele: 5
