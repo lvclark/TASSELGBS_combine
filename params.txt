@@ -1,4 +1,5 @@
 Tag database output file: C:\Users\lvclark\Documents\GS_across_pops\common_tags.csv
+Output directory: C:\Users\lvclark\Documents\GS_across_pops\
 
 Population name: 09F2
 SAM file: C:\Users\lvclark\Documents\GS_across_pops\181119_tagseq_09F2.sam

@@ -33,6 +33,8 @@ with open(paramsFile, "rt") as mycon:
             min_with_minor.append(int(line[28:].strip()))
         if line.startswith("Tag database output file:"):
             db_outfile = line[25:].strip()
+        if line.startswith("Output directory:"):
+            outdir = line[17:].strip()
 
 npops = len(popnames)
 if npops < 2:
@@ -149,6 +151,5 @@ tagdigger_fun.writeMarkerDatabase(db_outfile, mtags[0], mtags[1], \
 
 ## export tag counts
 for p in range(npops):
-    ## need to specify directory
-    tagdigger_fun.writeCounts(popnames[p] + "_counts.csv", counts[p], \
+    tagdigger_fun.writeCounts(outdir + popnames[p] + "_counts.csv", counts[p], \
       samples[p], retained_tags[0])
