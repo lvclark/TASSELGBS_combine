@@ -87,11 +87,18 @@ for sf in samfiles[1:]:
             retained_tags_n[1].extend(tags_all)
     retained_tags = retained_tags_n
 
-# filter out monomorphic markers
+# cleanup
+del retained_tags_n, newtags, markernames_r, alleleindex_r, tags_old
+del tags_new, tags_all, allele_names, markernames_n, alleleindex_n
+
+# filter out monomorphic markers and problematic tags
 retained_tags = tagdigger_fun.remove_monomorphic_loci(retained_tags[0], retained_tags[1])
+retained_tags = tagdigger_fun.sanitizeTags(retained_tags)
 # allele and marker indexing
 retained_markers = tagdigger_fun.extractMarkers(retained_tags[0])
 nal = len(retained_tags[0]) # number of alleles
+print("{} tags retained across {} loci".format(nal, len(retained_markers[0])))
+print("Building tag index...")
 tagtree = tagdigger_fun.build_sequence_tree(retained_tags[1], nal)
 
 ## processing tagtaxadist files
@@ -99,6 +106,7 @@ print("Processing TagTaxaDist files")
 samples = [] # list of lists of sample names
 counts = [] # list of matrices, allele x sample
 for p in range(npops):
+    print(ttdfiles[p])
     with open(ttdfiles[p], mode = 'r', newline = '') as mycon:
         mycsv = csv.reader(mycon, dialect = 'excel-tab')
         for row in mycsv:
@@ -117,6 +125,7 @@ for p in range(npops):
             counts[p][tagindex] = [int(r) for r in row[1:]]
 
 ## filter markers based on counts
+print("Filtering by missing data rate and minor allele frequency")
 altokeep = []
 for alind in retained_markers[1]: # loop thru markers, by allele index
     theseal = alind[1]
@@ -141,6 +150,7 @@ retained_tags[1] = [retained_tags[1][a] for a in altokeep]
 counts = [[counts[p][a] for a in altokeep] for p in range(npops)]
 
 ## prepare to export common markers to a Tag Manager database
+print("Exporting data")
 mtags = tagdigger_fun.mergedTagList(retained_tags)
 # extract chromosomes and positions, and format for database
 splittemp = [markername.split("-") for markername in mtags[0]]
