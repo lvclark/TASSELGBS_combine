@@ -93,13 +93,12 @@ del tags_new, tags_all, allele_names, markernames_n, alleleindex_n
 
 # filter out monomorphic markers and problematic tags
 retained_tags = tagdigger_fun.remove_monomorphic_loci(retained_tags[0], retained_tags[1])
-retained_tags = tagdigger_fun.sanitizeTags(retained_tags)
 # allele and marker indexing
 retained_markers = tagdigger_fun.extractMarkers(retained_tags[0])
 nal = len(retained_tags[0]) # number of alleles
 print("{} tags retained across {} loci".format(nal, len(retained_markers[0])))
 print("Building tag index...")
-tagtree = tagdigger_fun.build_sequence_tree(retained_tags[1], nal)
+sorted_tags, sorted_index = zip(*sorted(zip(retained_tags[1], range(nal))))
 
 ## processing tagtaxadist files
 print("Processing TagTaxaDist files")
@@ -118,8 +117,11 @@ for p in range(npops):
                 continue
             # all other rows
             # look up tag in our database
-            tagindex = tagdigger_fun.sequence_index_lookup(row[0], tagtree)
-            if tagindex == -1: # tag not in database
+            bl = bisect_left(sorted_tags, row[0])
+            if bl == nal: # tag alphabetically after all in list
+                continue
+            tagindex = sorted_index[bl]
+            if retained_tags[1][tagindex] != row[0]: # tag not in retained
                 continue
             # fill in read depths
             counts[p][tagindex] = [int(r) for r in row[1:]]
