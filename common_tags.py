@@ -151,6 +151,13 @@ tagdigger_fun.writeMarkerDatabase(db_outfile, mtags[0], mtags[1], \
 
 ## export tag counts
 for p in range(npops):
+    # identify alleles with zero reads in this pop, and do not export.
+    keep_al = [a for a in range(len(counts[p])) if sum(counts[p][a]) > 0]
+    tagname_keep = [retained_tags[0][a] for a in keep_al]
+    counts_keep = [counts[p][a] for a in keep_al]
+    # transpose counts matrix
+    counts_keep = [[counts_keep[a][s] for a in range(len(counts_keep))] \
+                    for s in len(samples[p])]
+    # export
     tagdigger_fun.writeCounts(outdir + popnames[p] + "_counts.csv", \
-      [[counts[p][a][s] for a in range(len(counts[p]))] for s in len(samples[p])], \
-      samples[p], retained_tags[0])
+      counts_keep, samples[p], tagname_keep)
