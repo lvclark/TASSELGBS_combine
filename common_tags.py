@@ -94,6 +94,7 @@ nal = len(retained_tags[0]) # number of alleles
 tagtree = tagdigger_fun.build_sequence_tree(retained_tags[1], nal)
 
 ## processing tagtaxadist files
+print("Processing TagTaxaDist files")
 samples = [] # list of lists of sample names
 counts = [] # list of matrices, allele x sample
 for p in range(npops):
