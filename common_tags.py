@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import csv
 from bisect import bisect_left
 
 # Directory for TagDigger module (tagdigger_fun.py should be in this folder)
