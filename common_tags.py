@@ -151,5 +151,6 @@ tagdigger_fun.writeMarkerDatabase(db_outfile, mtags[0], mtags[1], \
 
 ## export tag counts
 for p in range(npops):
-    tagdigger_fun.writeCounts(outdir + popnames[p] + "_counts.csv", counts[p], \
+    tagdigger_fun.writeCounts(outdir + popnames[p] + "_counts.csv", \
+      [[counts[p][a][s] for a in range(len(counts[p]))] for s in len(samples[p])], \
       samples[p], retained_tags[0])
