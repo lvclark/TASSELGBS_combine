@@ -129,6 +129,7 @@ for p in range(npops):
 ## filter markers based on counts
 print("Filtering by missing data rate and minor allele frequency")
 altokeep = []
+n_markerskept = 0
 for alind in retained_markers[1]: # loop thru markers, by allele index
     theseal = alind[1]
     discard_marker = False
@@ -145,11 +146,13 @@ for alind in retained_markers[1]: # loop thru markers, by allele index
             break
     if not discard_marker:
         altokeep.extend(theseal)
+        n_markerskept += 1
 
 # remove alleles from all relevant objects if they don't meet filtering criteria
 retained_tags[0] = [retained_tags[0][a] for a in altokeep]
 retained_tags[1] = [retained_tags[1][a] for a in altokeep]
 counts = [[counts[p][a] for a in altokeep] for p in range(npops)]
+print("Retained {} tags across {} loci.".format(len(retained_tags[0]), n_markerskept))
 
 ## prepare to export common markers to a Tag Manager database
 print("Exporting data")
