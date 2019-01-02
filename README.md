@@ -14,20 +14,20 @@ each individual.
 
 ## Pipeline outline
 
-1. In TASSEL-GBSv2, for each population, run `GBSSeqToTagDBPlugin` and `TagExportToFastqPlugin`.
+1. In TASSEL-GBSv2, for each population, run `GetTagTaxaDistFromDBPlugin`,
+`GBSSeqToTagDBPlugin`, and `TagExportToFastqPlugin`.
 For the latter, it is advisable to set `-c` to something higher than the default.
 2. Use Bowtie2 or BWA to generate one SAM file per population, using the FASTQ files created
 by the above step.
-3. A script using [TagDigger](https://github.com/lvclark/TagDigger) functions identifies common 
-tag locations across SAM files, organizes tags into markers (by location), and exports tag 
-sequences in TagDigger's database format.
-4. TagDigger is used for obtaining read depth of each selected tag in each individual across
-all populations.  Alternatively, these data are retrieved from the TagTaxaDist table from
-the TASSEL-GBS database.
-5. The read depth matrix is evaluated for missing data rate and minor allele frequency (or 
+3. `common_tags.py`, using [TagDigger](https://github.com/lvclark/TagDigger) functions, identifies common
+tag locations across SAM files and organizes tags into markers (by location).
+4. The read depth of each selected tag in each individual across
+all populations is retrieved from the TagTaxaDist table from the TASSEL-GBS database.
+5. The read depth matrix is evaluated for missing data rate and minor allele frequency (or
 number of individuals with minor allele) per population, which is used for filtering markers.
-6. The read depth matrix is split by population * ploidy, and genotypes are called using 
-[polyRAD](https://github.com/lvclark/polyRAD).
+For this final set of markers, tag sequences are exported in TagDigger's database format.
+6. The read depth matrix is split by population * ploidy, and genotypes are called using
+[polyRAD](https://github.com/lvclark/polyRAD) with the script `call_genotypes.R`.
 7. Genotypes are exported on a scale of 0 to 1 using `GetWeightedMeanGenotypes` on each
 population * ploidy, combined into one matrix with `rbind`, then exported to CSV.
 
