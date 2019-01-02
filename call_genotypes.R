@@ -24,7 +24,7 @@ counts_files <- file.path(outdir , paste(getParams("Population name:"),
 # Call genotypes in the test population first; this is the one where we care the
 # most about alleles being variable.
 
-# 09F2 population ####
+# 09F2 population with PipelineMapping2Parents; not used ####
 RD_09F2 <- readTagDigger(grep("09F2", counts_files, value = TRUE),
                          dbfile = tagdb_file, possiblePloidies = list(2),
                          dbChrCol = "Chromosome", dbPosCol = "Position")
