@@ -1,15 +1,15 @@
 # TASSELGBS_combine
 Pipeline to combine SNP datasets from multiple TASSEL-GBS databases
 
-This is a pipeline for a collaboration between the Sacks and Lipka labs, where we are 
+This is a pipeline for a collaboration between the Sacks and Lipka labs, where we are
 experimenting with performing genomic prediction across different diversity panels and
-mapping populations.  SNP mining has been performed on each of these populations 
+mapping populations.  SNP mining has been performed on each of these populations
 independently using the TASSEL-GBSv2 pipeline.  For a given set of populations, we want
-to identify RAD-seq tag locations (i.e. restriction cut site * strand) that were present 
+to identify RAD-seq tag locations (i.e. restriction cut site * strand) that were present
 in all populations.  Then we want to filter markers to retain in the combined dataset,
 where our requirements for missing data rate and minor allele frequency might vary from
-population to population.  The final output will be an accession x allele genotype matrix, 
-with numbers ranging from 0 to 1 indicating allele copy number divided by the ploidy of 
+population to population.  The final output will be an accession x allele genotype matrix,
+with numbers ranging from 0 to 1 indicating allele copy number divided by the ploidy of
 each individual.
 
 ## Pipeline outline
