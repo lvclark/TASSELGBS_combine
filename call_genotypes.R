@@ -247,3 +247,90 @@ hist(colMeans(mat_Msa4x), breaks = 50)
 load(file = file.path(outdir, "mat_Msa4x.RData"))
 
 # Msi population ####
+
+RD_Msi <- readTagDigger(grep("Msi", counts_files, value = TRUE),
+                        dbfile = tagdb_file, possiblePloidies = list(2),
+                        dbChrCol = "Chromosome", dbPosCol = "Position")
+RD_Msi <- SubsetByLocus(RD_Msi, keeploc) # cull unused loci
+
+# test overdispersion
+RD_Msi_prelim <- IterateHWE(RD_Msi)
+odtest <- TestOverdispersion(RD_Msi_prelim, to_test = 6:10)
+odtest2 <- TestOverdispersion(RD_Msi_prelim, to_test = 11:13)
+
+# tiff(file.path(outdir, "Msi_overdispersion6.tiff"), compression = "lzw")
+# qq(odtest[["6"]])
+# dev.off()
+# tiff(file.path(outdir, "Msi_overdispersion7.tiff"), compression = "lzw")
+# qq(odtest[["7"]])
+# dev.off()
+# tiff(file.path(outdir, "Msi_overdispersion8.tiff"), compression = "lzw")
+# qq(odtest[["8"]])
+# dev.off()
+# tiff(file.path(outdir, "Msi_overdispersion9.tiff"), compression = "lzw")
+# qq(odtest[["9"]])
+# dev.off()
+# tiff(file.path(outdir, "Msi_overdispersion10.tiff"), compression = "lzw")
+# qq(odtest[["10"]])
+# dev.off()
+# tiff(file.path(outdir, "Msi_overdispersion11.tiff"), compression = "lzw")
+# qq(odtest2[["11"]])
+# dev.off()
+# tiff(file.path(outdir, "Msi_overdispersion12.tiff"), compression = "lzw")
+# qq(odtest2[["12"]])
+# dev.off()
+# tiff(file.path(outdir, "Msi_overdispersion13.tiff"), compression = "lzw")
+# qq(odtest2[["13"]])
+# dev.off()
+
+rm(RD_Msi_prelim)
+
+RD_Msi <- IteratePopStruct(RD_Msi, overdispersion = 10)
+
+mat_Msi_big <- GetWeightedMeanGenotypes(RD_Msi, omit1allelePerLocus = FALSE)
+
+# get markers common to 09F2
+commnal <- colnames(mat_09F2)[colnames(mat_09F2) %in% colnames(mat_Msi)]
+
+mat_Msi <- matrix(0, nrow = nrow(mat_Msi_big), ncol = ncol(mat_09F2),
+                    dimnames = list(GetTaxa(RD_Msi), colnames(mat_09F2)))
+mat_Msi[,commnal] <- mat_Msi_big[,commnal]
+
+hist(colMeans(mat_Msi), breaks = 50)
+
+rm(RD_Msi)
+
+mat_Msi <- mat_Msi[!rownames(mat_Msi) %in% c("blank", "p196-150A-c", "p877-348-b", "IGR-2011-001"),]
+
+#save(mat_Msi, file = file.path(outdir, "mat_Msi.RData"))
+
+# Combined dataset ####
+# uses the version of 09F2 that came from HWE pipeline
+mat_combined <- rbind(mat_09F2, mat_Msa2x, mat_Msa4x, mat_Msi)
+
+# visualize and explore dataset
+mypca <- prcomp(mat_combined, scale. = TRUE)
+mycol <- c(rep("purple", nrow(mat_09F2)), rep("blue", nrow(mat_Msa2x)),
+           rep("green", nrow(mat_Msa4x)), rep("red", nrow(mat_Msi)))
+plot(mypca$x[,1], mypca$x[,2], col = mycol)
+
+hist(mat_combined)
+hist(colMeans(mat_combined))
+hist(colMeans(mat_combined[-(1:nrow(mat_09F2)),]))
+sum(colMeans(mat_combined[-(1:nrow(mat_09F2)),]) == 0) # 242 alleles in 09F2 but not diversity panels
+
+# alleles to toss for not being in diversity panels
+notdiverse <- which(colMeans(mat_combined[-(1:nrow(mat_09F2)),]) == 0 |
+                      colMeans(mat_combined[-(1:nrow(mat_09F2)),]) == 1)
+str(notdiverse) #242
+names(notdiverse)
+
+mat_combined <- mat_combined[,-notdiverse]
+dim(mat_combined) # 5140 markers remain
+
+# write.csv(mat_combined, file = file.path(outdir, "combined_genotypes.csv"))
+# write.csv(data.frame(Accession = rownames(mat_combined),
+#                      Pop = c(rep("09F2", nrow(mat_09F2)), rep("Msa_2x", nrow(mat_Msa2x)),
+#                                rep("Msa_4x", nrow(mat_Msa4x)), rep("Msi", nrow(mat_Msi)))),
+#           file = file.path(outdir, "accessions_populations.csv"),
+#           row.names = FALSE)
