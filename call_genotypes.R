@@ -124,6 +124,8 @@ hist(colMeans(mat_09F2), breaks = 50) # many freq around 0.25, 0.5, not 0.75
 
 rm(RD_09F2)
 
+load(file.path(outdir, "mat_09F2_HWE.RData"))
+
 # Import Msa to split into 2x and 4x ####
 
 RD_Msa <- readTagDigger(grep("Msa", counts_files, value = TRUE),
@@ -241,5 +243,7 @@ mat_Msa4x[,commnal] <- mat_Msa_4x[,commnal]
 hist(colMeans(mat_Msa4x), breaks = 50)
 
 #save(mat_Msa4x, file = file.path(outdir, "mat_Msa4x.RData"))
+
+load(file = file.path(outdir, "mat_Msa4x.RData"))
 
 # Msi population ####
