@@ -164,7 +164,7 @@ rm(RD_Msa)
 
 RD_Msa_2x_prelim <- IterateHWE(RD_Msa_2x)
 
-testod <- TestOverdispersion(RD_Msa_2x_prelim, to_test = 6:10)
+# odtest <- TestOverdispersion(RD_Msa_2x_prelim, to_test = 6:10)
 # tiff(file.path(outdir, "Msa2xoverdispersion6.tiff"), compression = "lzw")
 # qq(odtest[["6"]])
 # dev.off()
@@ -183,7 +183,7 @@ testod <- TestOverdispersion(RD_Msa_2x_prelim, to_test = 6:10)
 
 rm(RD_Msa_2x_prelim)
 
-RD_Msa_2x <- IteratePopStruct(RD_Msa_2x, overdispersion = 7)
+RD_Msa_2x <- IteratePopStruct(RD_Msa_2x, overdispersion = 8)
 
 mat_Msa_2x <- GetWeightedMeanGenotypes(RD_Msa_2x, omit1allelePerLocus = FALSE)
 
@@ -205,7 +205,7 @@ rm(RD_Msa_2x)
 
 RD_Msa_4x_prelim <- IterateHWE(RD_Msa_4x)
 
-testod <- TestOverdispersion(RD_Msa_4x_prelim, totest = 6:10)
+odtest <- TestOverdispersion(RD_Msa_4x_prelim, to_test = 6:10)
 
 # tiff(file.path(outdir, "Msa4xoverdispersion6.tiff"), compression = "lzw")
 # qq(odtest[["6"]])
