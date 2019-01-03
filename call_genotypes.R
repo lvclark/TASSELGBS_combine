@@ -79,7 +79,7 @@ hist(mat_09F2["UI10-00014",]) # both parents have a lot of heterozygous genotype
 
 # Alternative 09F2 under HWE model ####
 # I think this may better deal with segregation distortion
-RD_09F2 <- readTagDigger(grep("09F2", counts_files, value = TRUE),
+RD_09F2 <- readTagDigger(grep("09F2_counts", counts_files, value = TRUE),
                          dbfile = tagdb_file, possiblePloidies = list(2),
                          dbChrCol = "Chromosome", dbPosCol = "Position")
 RD_09F2 <- SubsetByTaxon(RD_09F2, 
@@ -128,7 +128,7 @@ load(file.path(outdir, "mat_09F2_HWE.RData"))
 
 # Import Msa to split into 2x and 4x ####
 
-RD_Msa <- readTagDigger(grep("Msa", counts_files, value = TRUE),
+RD_Msa <- readTagDigger(grep("Msa_counts", counts_files, value = TRUE),
                          dbfile = tagdb_file, possiblePloidies = list(2),
                          dbChrCol = "Chromosome", dbPosCol = "Position")
 RD_Msa <- AddPCA(RD_Msa)
@@ -248,7 +248,7 @@ load(file = file.path(outdir, "mat_Msa4x.RData"))
 
 # Msi population ####
 
-RD_Msi <- readTagDigger(grep("Msi", counts_files, value = TRUE),
+RD_Msi <- readTagDigger(grep("Msi_counts", counts_files, value = TRUE),
                         dbfile = tagdb_file, possiblePloidies = list(2),
                         dbChrCol = "Chromosome", dbPosCol = "Position")
 RD_Msi <- SubsetByLocus(RD_Msi, keeploc) # cull unused loci
