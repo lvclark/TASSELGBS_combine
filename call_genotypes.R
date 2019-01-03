@@ -298,7 +298,7 @@ RD_Msi <- IteratePopStruct(RD_Msi, overdispersion = 10)
 mat_Msi_big <- GetWeightedMeanGenotypes(RD_Msi, omit1allelePerLocus = FALSE)
 
 # get markers common to 09F2
-commnal <- colnames(mat_09F2)[colnames(mat_09F2) %in% colnames(mat_Msi)]
+commnal <- colnames(mat_09F2)[colnames(mat_09F2) %in% colnames(mat_Msi_big)]
 
 mat_Msi <- matrix(0, nrow = nrow(mat_Msi_big), ncol = ncol(mat_09F2),
                     dimnames = list(GetTaxa(RD_Msi), colnames(mat_09F2)))
