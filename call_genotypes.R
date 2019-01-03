@@ -203,6 +203,8 @@ hist(colMeans(mat_Msa_2x), breaks = 50)
 
 rm(RD_Msa_2x)
 
+load(file.path(outdir, "mat_Msa2x.RData"))
+
 # Msa tetraploids ####
 
 RD_Msa_4x_prelim <- IterateHWE(RD_Msa_4x)
