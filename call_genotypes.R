@@ -254,6 +254,12 @@ RD_Msi <- readTagDigger(grep("Msi_counts", counts_files, value = TRUE),
                         dbfile = tagdb_file, possiblePloidies = list(2),
                         dbChrCol = "Chromosome", dbPosCol = "Position")
 RD_Msi <- SubsetByLocus(RD_Msi, keeploc) # cull unused loci
+# eliminate blank and DH lines
+RD_Msi <- 
+  SubsetByTaxon(RD_Msi, GetTaxa(RD_Msi)[!GetTaxa(RD_Msi) %in% c("blank", "p196-150A-c", 
+                                                                "p877-348-b", "IGR-2011-001")])
+# merge taxa that were separate due to typo
+RD_Msi <- MergeTaxaDepth(RD_Msi, c("PMS-504", "PMS-504-Msa"))
 
 # test overdispersion
 RD_Msi_prelim <- IterateHWE(RD_Msi)
@@ -301,8 +307,6 @@ mat_Msi[,commnal] <- mat_Msi_big[,commnal]
 hist(colMeans(mat_Msi), breaks = 50)
 
 rm(RD_Msi)
-
-mat_Msi <- mat_Msi[!rownames(mat_Msi) %in% c("blank", "p196-150A-c", "p877-348-b", "IGR-2011-001"),]
 
 #save(mat_Msi, file = file.path(outdir, "mat_Msi.RData"))
 
