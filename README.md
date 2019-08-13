@@ -29,13 +29,8 @@ exported from the TASSEL-GBS database in step 1.  The read depth matrix is
 evaluated for missing data rate and number of individuals with minor allele per
 population, which is used for filtering markers. For this final set of markers,
 tag sequences are exported in TagDigger's database format.
-5. Edit `call_genotypes.R` and run it using R 3.5. The read depth matrix is split by 
+5. Edit `call_genotypes.R` and run it using R 3.5. The read depth matrix is split by
 population * ploidy, and genotypes are called using
 [polyRAD](https://github.com/lvclark/polyRAD). Genotypes are exported on a scale
 of 0 to 1 using `GetWeightedMeanGenotypes` on each
 population * ploidy, combined into one matrix with `rbind`, then exported to CSV.
-
-# Merged phenotypes
-
-Do we want to use LS means to get phenotypic values for the entire combined set all at once
-with population (i.e. experiment) as an effect?
