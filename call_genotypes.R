@@ -134,7 +134,7 @@ RD_Msa <- readTagDigger(grep("Msa_counts", counts_files, value = TRUE),
 RD_Msa <- AddPCA(RD_Msa)
 plot(RD_Msa)
 
-accessions <- read.csv("C:/Users/lvclark/Documents/DOE study Msa/Seq/GBSv2_180110/all_accession_names.csv",
+accessions <- read.csv("C:/Users/lvclark/Documents/DOE Msa study/Seq/GBSv2_180110/all_accession_names.csv",
                        row.names = 1, stringsAsFactors = FALSE)
 ploidies <- accessions[GetTaxa(RD_Msa), "Ploidy"]
 names(ploidies) <- GetTaxa(RD_Msa)
