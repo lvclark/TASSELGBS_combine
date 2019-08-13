@@ -12,6 +12,8 @@ population to population.  The final output will be an accession x allele genoty
 with numbers ranging from 0 to 1 indicating allele copy number divided by the ploidy of
 each individual.
 
+[![DOI](https://zenodo.org/badge/162745333.svg)](https://zenodo.org/badge/latestdoi/162745333)
+
 ## Pipeline outline
 
 1. In TASSEL-GBSv2, for each population, run `GBSSeqToTagDBPlugin`,
