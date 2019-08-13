@@ -107,3 +107,4 @@ venv.bak/
 .Rhistory
 *.RData
 *.Rproj
+.Rproj.user
